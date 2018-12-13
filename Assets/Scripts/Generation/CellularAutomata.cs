@@ -3,19 +3,19 @@
 public class CellularAutomata
 {
     private bool[,] grid;
-    private int width;
-    private int height;
     private float initialRatio;
     
+    public int Width { get; protected set;  }
+    public int Height { get; protected set;  }
     public int BirthLimit { get; set; }
     public int DeathLimit { get; set; }
 
     public CellularAutomata(int _width, int _height, float _initialRatio = .45f, int birthLimit = 4, int deathLimit = 3)
     {
-        width = _width;
-        height = _height;
+        Width = _width;
+        Height = _height;
         initialRatio = _initialRatio;
-        grid = new bool[width, height];
+        grid = new bool[Width, Height];
         BirthLimit = birthLimit;
         DeathLimit = deathLimit;
         
@@ -24,8 +24,8 @@ public class CellularAutomata
 
     private void InitialiseGrid()
     {
-        for (int x = 0; x < width; x++)
-            for (int y = 0; y < height; y++)
+        for (int x = 0; x < Width; x++)
+            for (int y = 0; y < Height; y++)
                 grid[x, y] = Random.value >= initialRatio;
     }
 
@@ -37,11 +37,11 @@ public class CellularAutomata
     
     private void DoSimulationStep()
     {
-        bool[,] tmpGrid = new bool[width, height];
+        bool[,] tmpGrid = new bool[Width, Height];
 
-        for (int x = 0; x < width; x++)
+        for (int x = 0; x < Width; x++)
         {
-            for (int y = 0; y < height; y++)
+            for (int y = 0; y < Height; y++)
             {
                 int neighbours = CountNeighbours(x, y);
 
@@ -76,7 +76,7 @@ public class CellularAutomata
                 if (i == 0 && j == 0) // ignore itself
                     continue;
                 
-                if (x + i < 0 || y + j < 0 || x + i >= width || y + j >= height) // off grid 
+                if (x + i < 0 || y + j < 0 || x + i >= Width || y + j >= Height) // off grid 
                     count++;
                 else if (grid[x + i, y + j]) // check neighbour
                     count++;
@@ -85,8 +85,20 @@ public class CellularAutomata
         return count;
     }
 
+    public bool IsWall(int x, int y)
+    {
+        if (grid[x, y]) // is not walkable
+        {
+            return !(Get(x + 1, y) && Get(x - 1, y) && Get(x, y + 1) && Get(x, y - 1));
+        }
+        return false;
+    }
+
     public bool Get(int x, int y)
     {
+        if (x < 0 || y < 0 || x >= Width || y >= Height)
+            return true; // Wall
+        
         return grid[x, y];
     }
 

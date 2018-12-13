@@ -25,7 +25,7 @@ public class EditorManager : MonoBehaviour
 
 	[SerializeField] private GameObject advancedPanel;
 	[SerializeField] private GameObject mapHolder;
-
+	
 	#endregion
 
 	#region Generation_Parameters

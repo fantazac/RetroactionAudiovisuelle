@@ -14,14 +14,21 @@ public class Terrain : MonoBehaviour
 	public Material groundMaterial;
 	
 	private CellularAutomata ca;
-	private ProceduralGrid grid;
+	private ProceduralMesh grid;
 	
 	// Optimisation
 	private List<int> rooms;
 	private int[,] map;
 	private CellularAutomata automata;
-	
 
+	GameObject WallColliderPrefab;
+
+	private void LoadResources()
+	{
+		//WallColliderPrefab = Resources.Load<GameObject>("Assets/Prefabs/WallCollider");
+		WallColliderPrefab = WallColliderPrefab = Resources.Load<GameObject>("WallCollider");
+	}
+	
 	public void Generate(int width, int height, float initialProb, int birthLimit, int deathLimit)
 	{
 		this.width = width;
@@ -30,21 +37,13 @@ public class Terrain : MonoBehaviour
 		meshFilter = gameObject.AddComponent<MeshFilter>();
 		meshRenderer = gameObject.AddComponent<MeshRenderer>();
 		
-		grid = new ProceduralGrid(width, height);
 		ca = new CellularAutomata(width, height, initialProb, birthLimit, deathLimit);
 		ca.Simulate(10);
 		RemoveUnreachableRooms(ca);
 		
-		for (int y = 0; y < height; y++)
-		{
-			for (int x = 0; x < width; x++)
-			{
-				if (!ca.Get(x, y))
-					grid.AddQuad(x, y);
-			}
-		}
-
+		grid = new ProceduralMesh(ca);
 		meshFilter.mesh = grid.GetMesh();
+		PlaceWalls();
 	}
 
 	private void RemoveUnreachableRooms(CellularAutomata automata)
@@ -52,10 +51,6 @@ public class Terrain : MonoBehaviour
 		this.automata = automata;
 		IdentifyRooms();
 		RemoveUnreachableRooms();
-		
-		Debug.Log("Identified " + rooms.Count + " rooms:");
-		for (int i = 0; i < rooms.Count; i++)
-			Debug.Log("Room_" + i + " - size: " + rooms[i]);
 		
 		map = null;
 		this.automata = null;
@@ -116,6 +111,24 @@ public class Terrain : MonoBehaviour
 			{
 				if (map[x, y] > 0 && map[x, y] != roomToKeep + 1)
 					automata.Invert(x, y);
+			}
+		}
+	}
+
+	private void PlaceWalls()
+	{
+		LoadResources();
+		
+		// todo Exterior walls
+        
+		for (int y = 0; y < height; y++)
+		{
+			for (int x = 0; x < width; x++)
+			{
+				if (ca.IsWall(x, y))
+				{
+					GameObject wall = Instantiate(WallColliderPrefab, new Vector3(x + .5f, .5f, y + .5f), Quaternion.identity, transform);
+				}
 			}
 		}
 	}
