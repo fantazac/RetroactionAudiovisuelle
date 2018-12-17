@@ -22,19 +22,23 @@ public class Terrain : MonoBehaviour
 	private CellularAutomata automata;
 
 	GameObject WallColliderPrefab;
+	Material GroundMaterial;
 
 	private void LoadResources()
 	{
-		WallColliderPrefab = WallColliderPrefab = Resources.Load<GameObject>("WallCollider");
+		WallColliderPrefab = Resources.Load<GameObject>("WallCollider");
+		GroundMaterial = Resources.Load<Material>("GroundMaterial");
 	}
 
 	public void Generate(int width, int height, float initialProb, int birthLimit, int deathLimit)
 	{
 		this.width = width;
 		this.height = height;
+		LoadResources();
 		
 		meshFilter = gameObject.AddComponent<MeshFilter>();
 		meshRenderer = gameObject.AddComponent<MeshRenderer>();
+		meshRenderer.material = GroundMaterial;
 		
 		ca = new CellularAutomata(width, height, initialProb, birthLimit, deathLimit);
 		ca.Simulate(10);
@@ -116,8 +120,6 @@ public class Terrain : MonoBehaviour
 
 	private void PlaceWalls()
 	{
-		LoadResources();
-		
 		for (int y = -1; y <= height; y++)
 		{
 			for (int x = -1; x <= width; x++)
