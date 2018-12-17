@@ -3,92 +3,64 @@ using UnityEngine;
 
 public class ProceduralMesh
 {
-    private int width;
-    private int height;
-
-    private List<int> triangleList;
-    
-    private Vector3[] vertices;
-    private int[] triangles;
-    private CellularAutomata ca;
-    private float scale;
-    private Vector3 offset;
-
+    private List<Vector3> vertices;
+    private List<int> triangles;
+    private List<Vector2> uvs;
 
     public ProceduralMesh(CellularAutomata ca, float scale = 1)
     {
-        width = ca.Width + 1;
-        height = ca.Height + 1;
-        this.ca = ca;
-        
-        //vertices = new Vector3[(width + 1) * (height + 1)];
-        vertices = new Vector3[width * height];
-        triangleList = new List<int>();
+        vertices = new List<Vector3>();
+        triangles = new List<int>();
+        uvs = new List<Vector2>();
 
-        for (int y = 0; y < height; y++)
-        {
-            for (int x = 0; x < width; x++)
+        for (int y = 0; y < ca.Height; y++)
+        {   
+            for (int x = 0; x < ca.Width; x++)
             {
-                // Vertices
-                vertices[y * width + x] = new Vector3(x * scale, 0f, y * scale) - offset;
-
-                // Triangles
                 if (!ca.Get(x, y))
-                {
-                    // Upper Right
-                    triangleList.Add(y * width + x);
-                    triangleList.Add((y + 1) * width + x + 1);
-                    triangleList.Add(y * width + x + 1);
-    
-                    // Bottom Left
-                    triangleList.Add(y * width + x);
-                    triangleList.Add((y + 1) * width + x);
-                    triangleList.Add((y + 1) * width + x + 1);
-                }
+                    AddTile(x, y);
             }
         }
     }
-    
-    /*
-    public ProceduralMesh(int _width = 50, int _height = 50, float scale = 1)
+
+    private void AddTile(int x, int y)
     {
-        width = _width + 1;
-        height = _height + 1;
-        vertices = new Vector3[width * height];
-        triangleList = new List<int>();
+        int triangleIndex = vertices.Count;
+        int offset = 0;
         
-        for (int y = 0; y <= height + 1; y++)
-            for (int x = 0; x <= width + 1; x++)
-                vertices[y * width + x] = new Vector3(x * scale, 0f, y * scale) - offset;
-    }
-    //*/
+        // Vertices
+        vertices.Add(new Vector3(x, 0f, y));
+        vertices.Add(new Vector3(x + 1, 0f, y)); 
+        vertices.Add(new Vector3(x, 0f, y + 1));
+        vertices.Add(new Vector3(x + 1, 0f, y + 1));
+        // We generate all four vertices per tile (and no longer use neighbour tile vertices) so we can edit per tile UVs
+        
+        // UVs
+        uvs.Add(new Vector2(0 + offset, 0));
+        uvs.Add(new Vector2(1 + offset, 0));
+        uvs.Add(new Vector2(0 + offset, 1));
+        uvs.Add(new Vector2(1 + offset, 1));
 
-    public void SetHeight(int x, int y, float height)
-    {
-        Vector3 vert = vertices[y * width + x];
-        vert.y = height;
-        vertices[y * width + x] = vert;
-    }
+        // Triangles
+        // Upper Right
+        triangles.Add(triangleIndex);
+        triangles.Add(triangleIndex + 3);
+        triangles.Add(triangleIndex + 1);
 
+        // Bottom Left
+        triangles.Add(triangleIndex);
+        triangles.Add(triangleIndex + 2);
+        triangles.Add(triangleIndex + 3);
+    }
+    
     public Mesh GetMesh()
     {
         Mesh mesh = new Mesh();
-        mesh.vertices = vertices;
-        mesh.triangles = triangleList.ToArray();
+        mesh.vertices = vertices.ToArray();
+        mesh.triangles = triangles.ToArray();
+        mesh.uv = uvs.ToArray();
+        mesh.RecalculateNormals();
         
         return mesh;
-    }
-
-    public void AddQuad(int x, int y)
-    {
-        // Upper Right
-        triangleList.Add(y * width + x);
-        triangleList.Add((y + 1) * width + x + 1);
-        triangleList.Add(y * width + x + 1);
-        
-        // Bottom Left
-        triangleList.Add(y * width + x);
-        triangleList.Add((y + 1) * width + x);
-        triangleList.Add((y + 1) * width + x + 1);
     }
 }

@@ -25,17 +25,7 @@ public class Terrain : MonoBehaviour
 
 	private void LoadResources()
 	{
-		//WallColliderPrefab = Resources.Load<GameObject>("Assets/Prefabs/WallCollider");
 		WallColliderPrefab = WallColliderPrefab = Resources.Load<GameObject>("WallCollider");
-	}
-
-	private void OnDrawGizmos()
-	{
-		Gizmos.color = Color.yellow;
-
-		Vector3[] vertices = meshFilter.mesh.vertices;
-		for (int i = 0; i < vertices.Length; i++)
-			Gizmos.DrawWireSphere(vertices[i], .1f);
 	}
 
 	public void Generate(int width, int height, float initialProb, int birthLimit, int deathLimit)
