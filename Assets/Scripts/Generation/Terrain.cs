@@ -28,7 +28,16 @@ public class Terrain : MonoBehaviour
 		//WallColliderPrefab = Resources.Load<GameObject>("Assets/Prefabs/WallCollider");
 		WallColliderPrefab = WallColliderPrefab = Resources.Load<GameObject>("WallCollider");
 	}
-	
+
+	private void OnDrawGizmos()
+	{
+		Gizmos.color = Color.yellow;
+
+		Vector3[] vertices = meshFilter.mesh.vertices;
+		for (int i = 0; i < vertices.Length; i++)
+			Gizmos.DrawWireSphere(vertices[i], .1f);
+	}
+
 	public void Generate(int width, int height, float initialProb, int birthLimit, int deathLimit)
 	{
 		this.width = width;
@@ -119,11 +128,9 @@ public class Terrain : MonoBehaviour
 	{
 		LoadResources();
 		
-		// todo Exterior walls
-        
-		for (int y = 0; y < height; y++)
+		for (int y = -1; y <= height; y++)
 		{
-			for (int x = 0; x < width; x++)
+			for (int x = -1; x <= width; x++)
 			{
 				if (ca.IsWall(x, y))
 				{

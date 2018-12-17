@@ -17,14 +17,13 @@ public class ProceduralMesh
 
     public ProceduralMesh(CellularAutomata ca, float scale = 1)
     {
-        width = ca.Width;
-        height = ca.Height;
+        width = ca.Width + 1;
+        height = ca.Height + 1;
         this.ca = ca;
         
-        vertices = new Vector3[(width + 1) * (height + 1)];    
+        //vertices = new Vector3[(width + 1) * (height + 1)];
+        vertices = new Vector3[width * height];
         triangleList = new List<int>();
-        //offset = new Vector3((width + 1) * scale / 2f, 0f, (height + 1) * scale / 2f);
-        // todo Remove offset for position and generation computation speed
 
         for (int y = 0; y < height; y++)
         {
@@ -50,20 +49,19 @@ public class ProceduralMesh
         }
     }
     
-    public ProceduralMesh(int _width = 50, int _height = 50, float horizontalScale = 1)
+    /*
+    public ProceduralMesh(int _width = 50, int _height = 50, float scale = 1)
     {
         width = _width + 1;
         height = _height + 1;
-        
         vertices = new Vector3[width * height];
         triangleList = new List<int>();
         
-        Vector3 offset = new Vector3(width * horizontalScale / 2f, 0f, _height * horizontalScale / 2f);
-        
-        for (int y = 0; y < height; y++)
-            for (int x = 0; x < width; x++)
-                vertices[y * width + x] = new Vector3(x * horizontalScale, 0f, y * horizontalScale) - offset;
+        for (int y = 0; y <= height + 1; y++)
+            for (int x = 0; x <= width + 1; x++)
+                vertices[y * width + x] = new Vector3(x * scale, 0f, y * scale) - offset;
     }
+    //*/
 
     public void SetHeight(int x, int y, float height)
     {

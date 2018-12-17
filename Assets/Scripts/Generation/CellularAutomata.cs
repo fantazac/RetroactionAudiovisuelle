@@ -87,7 +87,7 @@ public class CellularAutomata
 
     public bool IsWall(int x, int y)
     {
-        if (grid[x, y]) // is not walkable
+        if (Get(x, y)) // is not walkable
         {
             return !(Get(x + 1, y) && Get(x - 1, y) && Get(x, y + 1) && Get(x, y - 1));
         }
