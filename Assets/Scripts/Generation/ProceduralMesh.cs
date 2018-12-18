@@ -26,7 +26,7 @@ public class ProceduralMesh
     private void AddTile(int x, int y)
     {
         int triangleIndex = vertices.Count;
-        int offset = 0;
+        int offset = Random.Range(0, 4);
         
         // Vertices
         vertices.Add(new Vector3(x, 0f, y));
@@ -51,6 +51,7 @@ public class ProceduralMesh
         triangles.Add(triangleIndex);
         triangles.Add(triangleIndex + 2);
         triangles.Add(triangleIndex + 3);
+        
     }
     
     public Mesh GetMesh()
