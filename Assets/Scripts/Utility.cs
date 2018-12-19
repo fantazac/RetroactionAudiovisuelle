@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Utility
 {
+    public static Terrain World;
+    
     public static Vector2Int GetPlayerActionPosition(Transform player)
     {
         float playerRange = .5f; // Distance the player 'arms' can reach from player position

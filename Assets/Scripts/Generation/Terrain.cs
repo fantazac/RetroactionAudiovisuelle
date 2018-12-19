@@ -21,17 +21,24 @@ public class Terrain : MonoBehaviour
 	private int[,] map;
 	private CellularAutomata automata;
 
+	// Resources
 	GameObject WallColliderPrefab;
+	GameObject RockPrefab;
 	Material GroundMaterial;
+
+	public Vector2Int PlayerSpawn { get; protected set; }
+	private GameObject[,] rockGrid;
 
 	private void LoadResources()
 	{
 		WallColliderPrefab = Resources.Load<GameObject>("WallCollider");
+		RockPrefab = Resources.Load<GameObject>("Rock");
 		GroundMaterial = Resources.Load<Material>("GroundMaterial");
 	}
 
 	public void Generate(int width, int height, float initialProb, int birthLimit, int deathLimit)
 	{
+		Utility.World = this;
 		this.width = width;
 		this.height = height;
 		LoadResources();
@@ -46,7 +53,10 @@ public class Terrain : MonoBehaviour
 		
 		grid = new ProceduralMesh(ca);
 		meshFilter.mesh = grid.GetMesh();
+		
 		PlaceWalls();
+		PlacePlayerSpawn();
+		PlacePlayerRocks();
 	}
 
 	private void RemoveUnreachableRooms(CellularAutomata automata)
@@ -130,5 +140,86 @@ public class Terrain : MonoBehaviour
 				}
 			}
 		}
+	}
+
+	private void PlacePlayerSpawn() // Not my proudest...
+	{
+		int numberOfPossibleSpawnpoints = 0;
+		
+		for (int x = 0; x < width; x++)
+		{
+			for (int y = 0; y < height; y++)
+			{
+				if (!ca.Get(x, y))
+					numberOfPossibleSpawnpoints++;
+			}
+		}
+
+		int spawnpointIndex = Random.Range(1, numberOfPossibleSpawnpoints - 1);
+		
+		for (int x = 0; x < width; x++)
+		{
+			for (int y = 0; y < height; y++)
+			{
+				if (!ca.Get(x, y))
+				{
+					spawnpointIndex--;
+					if (spawnpointIndex <= 0)
+					{
+						PlayerSpawn = new Vector2Int(x, y);
+						return;
+					}
+				}
+			}
+		}
+	}
+	
+	private void PlacePlayerRocks()
+	{
+		float rockSpawnChance = .65f;
+		rockGrid = new GameObject[width, height];
+		
+		for (int x = 0; x < width; x++)
+		{
+			for (int y = 0; y < height; y++)
+			{
+				rockGrid[x, y] = null;
+
+				if (!ca.Get(x, y) && x != PlayerSpawn.x && y != PlayerSpawn.y) // Can place a rock at this position
+				{
+					if (Random.value <= rockSpawnChance)
+					{
+						float yPivot = Random.Range(0f, 90f);
+						GameObject rock = Instantiate(RockPrefab, new Vector3(x + .5f, .2f, y + .5f), new Quaternion(45f, yPivot, 45f, 0f), transform);
+						rockGrid[x, y] = rock;
+					}
+				}
+			}
+		}
+	}
+
+	public int DestroyRock(int x, int y)
+	{
+		int points = 0;
+
+		if (rockGrid[x, y] != null)
+		{
+			Rock rock = rockGrid[x, y].GetComponent<Rock>();
+			points += rock.Level;
+
+			if (points == 4) // Extra point for max rock level
+				points++;
+			
+			Destroy(rockGrid[x, y]);
+			rockGrid[x, y] = null;
+		}
+
+		return points;
+	}
+
+	private void OnDrawGizmosSelected()
+	{
+		Gizmos.color = Color.cyan;
+		Gizmos.DrawWireSphere(new Vector3(PlayerSpawn.x + .5f, .5f, PlayerSpawn.y + .5f), .5f);
 	}
 }
