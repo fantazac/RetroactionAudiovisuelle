@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    
-    void Start()
+
+    public int Score { get; protected set; }
+
+    private void Awake()
     {
-        
+        Utility.Player = this;
     }
 
     // Update is called once per frame
@@ -24,11 +26,15 @@ public class PlayerController : MonoBehaviour
             int points = Utility.World.DestroyRock(pos.x, pos.y);
 
             if (points > 0)
-            {
-                // todo: Update score
-                // todo: Play Hit particles
-            }
+                OnReceivePoints(points);
         }
+    }
+
+    private void OnReceivePoints(int value)
+    {
+        Score += value;
+        // todo: Update UI
+        // todo: Play Hit particles
     }
 
     private void OnDrawGizmosSelected()

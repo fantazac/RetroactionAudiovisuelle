@@ -36,9 +36,13 @@ public class Terrain : MonoBehaviour
 		GroundMaterial = Resources.Load<Material>("GroundMaterial");
 	}
 
-	public void Generate(int width, int height, float initialProb, int birthLimit, int deathLimit)
+	private void Awake()
 	{
 		Utility.World = this;
+	}
+
+	public void Generate(int width, int height, float initialProb, int birthLimit, int deathLimit)
+	{
 		this.width = width;
 		this.height = height;
 		LoadResources();
@@ -56,7 +60,7 @@ public class Terrain : MonoBehaviour
 		
 		PlaceWalls();
 		PlacePlayerSpawn();
-		PlacePlayerRocks();
+		PlaceRocks();
 	}
 
 	private void RemoveUnreachableRooms(CellularAutomata automata)
@@ -174,7 +178,7 @@ public class Terrain : MonoBehaviour
 		}
 	}
 	
-	private void PlacePlayerRocks()
+	private void PlaceRocks()
 	{
 		float rockSpawnChance = .65f;
 		rockGrid = new GameObject[width, height];
@@ -193,6 +197,25 @@ public class Terrain : MonoBehaviour
 						GameObject rock = Instantiate(RockPrefab, new Vector3(x + .5f, .2f, y + .5f), new Quaternion(45f, yPivot, 45f, 0f), transform);
 						rockGrid[x, y] = rock;
 					}
+				}
+			}
+		}
+		
+		UpgradeRocks(.28f, 2);
+	}
+
+	private void UpgradeRocks(float prob, int iterations)
+	{
+		for (int i = 0; i < iterations; i++)
+		{
+			CellularAutomata cell = new CellularAutomata(width, height, prob, 5, 4);
+
+			for (int x = 0; x < width; x++)
+			{
+				for (int y = 0; y < height; y++)
+				{
+					if (rockGrid[x, y] != null && !cell.Get(x, y))
+						rockGrid[x, y].GetComponent<Rock>().LevelUp();
 				}
 			}
 		}
