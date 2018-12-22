@@ -14,7 +14,7 @@ public class PickaxeManager : MonoBehaviour
     private float castTime;
     private WaitForSeconds delayCastTime;
 
-    private float minimumDistanceToHitRock;
+    private float pickaxeRange;
 
     private Material material;
 
@@ -32,7 +32,7 @@ public class PickaxeManager : MonoBehaviour
         timeAfterHit = 0.1f;
         delayAfterHit = new WaitForSeconds(timeAfterHit);
 
-        minimumDistanceToHitRock = 1;
+        pickaxeRange = 1.2f;
 
         CanHitRock = true;
     }
@@ -45,7 +45,7 @@ public class PickaxeManager : MonoBehaviour
 
     public void HitRockInRange(Rock rock)
     {
-        if (CanMine && CanHitRock && Vector3.Distance(rock.transform.position, transform.position) <= minimumDistanceToHitRock)
+        if (CanMine && CanHitRock && Vector3.Distance(rock.transform.position, transform.position) <= pickaxeRange)
         {
             CanHitRock = false;
             IsHittingRock = true;
