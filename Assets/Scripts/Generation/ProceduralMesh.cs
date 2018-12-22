@@ -51,9 +51,9 @@ public class ProceduralMesh
 
         // Vertices
         vertices.Add(new Vector3(x, height, y));
-        vertices.Add(new Vector3(x + 1, height, y));
-        vertices.Add(new Vector3(x, height, y + 1));
-        vertices.Add(new Vector3(x + 1, height, y + 1));
+        vertices.Add(new Vector3(x + 0.9999f, height, y));
+        vertices.Add(new Vector3(x, height, y + 0.9999f));
+        vertices.Add(new Vector3(x + 0.9999f, height, y + 0.9999f));
         // We generate all four vertices for the tile (and no longer use neighbour tile vertices) so we can edit per tile UVs
 
         // UVs

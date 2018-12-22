@@ -17,11 +17,19 @@ public class Rock : MonoBehaviour
     private void Start()
     {
         rockSoundManager = GetComponent<RockSoundManager>();
-        // Todo reposition & resize collider
+        UpdateUvs();
     }
 
     public int Hit()
     {
+        MeshFilter meshFilter = GetComponent<MeshFilter>();
+        Mesh mesh = meshFilter.mesh;
+        Vector2[] uvs = mesh.uv;
+
+        for (int i = 0; i < uvs.Length; i++)
+            uvs[i].y--;
+        mesh.uv = uvs;
+        
         rockSoundManager.PlaySound(0);
         return --health;
     }

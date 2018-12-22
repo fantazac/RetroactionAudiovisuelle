@@ -100,7 +100,7 @@ public class MapTerrain : MonoBehaviour
         {
             for (int y = 0; y < height; y++)
             {
-                if (grid.Get(x, y) && x != PlayerSpawn.x && y != PlayerSpawn.y) // Can place a rock at this position
+                if (grid.Get(x, y) && x != (int)PlayerSpawn.x && y != (int)PlayerSpawn.y) // Can place a rock at this position
                 {
                     if (Random.value <= rockSpawnChance)
                     {
