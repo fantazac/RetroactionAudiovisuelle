@@ -6,6 +6,8 @@ public class Rock : MonoBehaviour
 
     private int health;
 
+    private RockSoundManager rockSoundManager;
+
     private Rock()
     {
         Level = 0;
@@ -14,11 +16,13 @@ public class Rock : MonoBehaviour
 
     private void Start()
     {
+        rockSoundManager = GetComponent<RockSoundManager>();
         // Todo reposition & resize collider
     }
 
     public int Hit()
     {
+        rockSoundManager.PlaySound(0);
         return --health;
     }
 
