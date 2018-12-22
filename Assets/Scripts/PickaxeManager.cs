@@ -19,6 +19,7 @@ public class PickaxeManager : MonoBehaviour
     private Material material;
 
     public bool CanHitRock { get; private set; }
+    public bool CanMine { get; set; }
     public bool IsHittingRock { get; private set; }
 
     private PickaxeManager()
@@ -44,7 +45,7 @@ public class PickaxeManager : MonoBehaviour
 
     public void HitRockInRange(Rock rock)
     {
-        if(CanHitRock && Vector3.Distance(rock.transform.position, transform.position) <= minimumDistanceToHitRock)
+        if (CanMine && CanHitRock && Vector3.Distance(rock.transform.position, transform.position) <= minimumDistanceToHitRock)
         {
             CanHitRock = false;
             IsHittingRock = true;
@@ -63,10 +64,10 @@ public class PickaxeManager : MonoBehaviour
 
     private void DamageRock(Rock rock)
     {
-        if(rock.Hit() == 0)
+        if (rock.Hit() == 0)
         {
             pickaxeSoundManager.PlaySound(1);
-            StaticObjects.GameController.RockDestroyed(rock.Level);
+            StaticObjects.GameController.RockDestroyed(rock.Value);
             Destroy(rock.gameObject);
         }
         StartCoroutine(AfterHit());

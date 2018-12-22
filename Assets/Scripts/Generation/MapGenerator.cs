@@ -25,6 +25,11 @@ public class MapGenerator : MonoBehaviour
 
     public void GenerateMap()
     {
+        if (MapTerrain)
+        {
+            Destroy(MapTerrain.gameObject);
+        }
+
         Random.InitState(Environment.TickCount);
         map = new GameObject("Map");
         map.transform.position = Vector3.zero;

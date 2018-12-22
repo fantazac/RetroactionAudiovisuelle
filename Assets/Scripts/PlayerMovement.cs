@@ -11,6 +11,8 @@ public class PlayerMovement : MonoBehaviour
 
     private PickaxeManager pickaxeManager;
 
+    public bool CanMove { get; set; }
+
     private PlayerMovement()
     {
         movementSpeed = 2.5f;
@@ -31,7 +33,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        if (!pickaxeManager.IsHittingRock)
+        if (CanMove && !pickaxeManager.IsHittingRock)
         {
             if (moveLeft && !moveRight)
             {

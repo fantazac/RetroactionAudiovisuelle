@@ -2,5 +2,7 @@
 {
     START_SCREEN,
     MAIN_MENU,
-    IN_GAME
+    IN_GAME,
+    LEVEL_FINISHED,
+    GAME_FINISHED
 }
