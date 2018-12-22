@@ -25,7 +25,7 @@ public class MapTerrain : MonoBehaviour
 
         WallColliderPrefab = Resources.Load<GameObject>("WallCollider");
         RockPrefab = Resources.Load<GameObject>("Rock");
-        GroundMaterial = Resources.Load<Material>("GroundMaterial");
+        GroundMaterial = Resources.Load<Material>("MainMaterial");
     }
 
     public void Generate(int width, int height, float initialProb, int birthLimit, int deathLimit)
@@ -57,18 +57,6 @@ public class MapTerrain : MonoBehaviour
                grid.IsEmpty((int)(to.x - size), (int)(to.y + size)) && // Top Left
                grid.IsEmpty((int)(to.x - size), (int)(to.y - size));   // Bottom Left
     }
-
-    /* V1. Backup si nouveau mouvement pas bien
-	public bool CanMove(Vector3 from, Vector3 to)
-	{
-		Vector2Int fromV2I = new Vector2Int((int) from.x, (int) from.z);
-		Vector2Int toV2I = new Vector2Int((int) to.x, (int) to.z);
-
-		if (fromV2I == toV2I) // still on the same cell
-			return true;
-		return grid.CanMove(fromV2I, toV2I);
-	}
-	//*/
 
     private void PlacePlayerSpawn() // Not my proudest...
     {
