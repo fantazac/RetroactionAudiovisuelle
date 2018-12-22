@@ -16,9 +16,9 @@ public class ProceduralMesh
         this.grid = grid;
         int borderSize = 5;
         float height = 1f;
-        
+
         for (int y = -borderSize; y < grid.Height + borderSize; y++)
-        {   
+        {
             for (int x = -borderSize; x < grid.Width + borderSize; x++)
             {
                 if (grid.Get(x, y)) // Ground
@@ -36,7 +36,7 @@ public class ProceduralMesh
         MeshFilter meshFilter = holder.AddComponent<MeshFilter>();
         MeshRenderer meshRenderer = holder.AddComponent<MeshRenderer>();
         meshRenderer.material = Utility.World.GroundMaterial;
-        
+
         Mesh mesh = new Mesh();
         mesh.vertices = vertices.ToArray();
         mesh.triangles = triangles.ToArray();
@@ -48,14 +48,14 @@ public class ProceduralMesh
     private void AddTile(int x, int y, float height, Vector2 uvOffset)
     {
         int triangleIndex = vertices.Count;
-        
+
         // Vertices
         vertices.Add(new Vector3(x, height, y));
-        vertices.Add(new Vector3(x + 1, height, y)); 
+        vertices.Add(new Vector3(x + 1, height, y));
         vertices.Add(new Vector3(x, height, y + 1));
         vertices.Add(new Vector3(x + 1, height, y + 1));
         // We generate all four vertices for the tile (and no longer use neighbour tile vertices) so we can edit per tile UVs
-        
+
         // UVs
         uvs.Add(new Vector2(0, 0) + uvOffset);
         uvs.Add(new Vector2(1, 0) + uvOffset);
@@ -78,9 +78,9 @@ public class ProceduralMesh
     {
         int triangleIndex = vertices.Count;
         int count = 0;
-        
+
         //todo: FIX
-        
+
         // Top
         if (grid.Get(x, y + 1))
         {
@@ -90,7 +90,7 @@ public class ProceduralMesh
             vertices.Add(new Vector3(x + 1, height, y + 1));
             count++;
         }
-        
+
         // Bottom
         if (grid.Get(x, y - 1))
         {
@@ -100,7 +100,7 @@ public class ProceduralMesh
             vertices.Add(new Vector3(x, height, y));
             count++;
         }
-        
+
         // Right
         if (grid.Get(x + 1, y))
         {
@@ -110,7 +110,7 @@ public class ProceduralMesh
             vertices.Add(new Vector3(x + 1, height, y));
             count++;
         }
-        
+
         // Left
         if (grid.Get(x - 1, y))
         {
@@ -120,7 +120,7 @@ public class ProceduralMesh
             vertices.Add(new Vector3(x, height, y + 1));
             count++;
         }
-        
+
         for (int i = 0; i < count; i++)
         {
             // UVs
@@ -128,13 +128,13 @@ public class ProceduralMesh
             uvs.Add(new Vector2(1, 0));
             uvs.Add(new Vector2(0, 1));
             uvs.Add(new Vector2(1, 1));
-    
+
             // Triangles
             // Upper Right
             triangles.Add(triangleIndex);
             triangles.Add(triangleIndex + 3);
             triangles.Add(triangleIndex + 2);
-    
+
             // Bottom Left
             triangles.Add(triangleIndex);
             triangles.Add(triangleIndex + 1);
