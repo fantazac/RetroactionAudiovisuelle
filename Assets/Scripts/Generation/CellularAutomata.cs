@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using System.Xml;
+using UnityEngine;
 
 public class CellularAutomata
 {
@@ -9,6 +11,11 @@ public class CellularAutomata
     public int Height { get; protected set;  }
     public int BirthLimit { get; set; }
     public int DeathLimit { get; set; }
+    
+    #region Optimisation Attributes
+    private List<int> rooms;
+    private int[,] map;
+    #endregion
 
     public CellularAutomata(int _width, int _height, float _initialRatio = .45f, int birthLimit = 4, int deathLimit = 3)
     {
@@ -85,15 +92,6 @@ public class CellularAutomata
         return count;
     }
 
-    public bool IsWall(int x, int y)
-    {
-        if (Get(x, y)) // is not walkable
-        {
-            return !(Get(x + 1, y) && Get(x - 1, y) && Get(x, y + 1) && Get(x, y - 1));
-        }
-        return false;
-    }
-
     public bool Get(int x, int y)
     {
         if (x < 0 || y < 0 || x >= Width || y >= Height)
@@ -107,4 +105,119 @@ public class CellularAutomata
         grid[x, y] = !grid[x, y];
     }
 
+    
+    #region Optimisation Methods
+
+    public void Optimise()
+    {
+        RemoveUnreachableRooms();
+        RecalculateBounds();
+    }
+    
+    private void RemoveUnreachableRooms()
+    {
+        rooms = new List<int>();
+        map = new int[Width, Height];
+        int roomToKeep = 0;
+        IdentifyRooms();
+		
+        for (int i = 0; i < rooms.Count; i++)
+            if (rooms[i] > rooms[roomToKeep])
+                roomToKeep = i;
+
+        for (int x = 0; x < Width; x++)
+        {
+            for (int y = 0; y < Height; y++)
+            {
+                if (map[x, y] > 0 && map[x, y] != roomToKeep + 1)
+                    Invert(x, y);
+            }
+        }
+
+        rooms = null;
+        map = null;
+    }
+    
+    private void IdentifyRooms()
+    {
+        for (int x = 0; x < Width; x++)
+        {
+            for (int y = 0; y < Height; y++)
+            {
+                // If we are in a room and it is not already identified
+                if (!Get(x, y) && map[x, y] == 0)
+                {
+                    rooms.Add(1);
+                    map[x, y] = rooms.Count;
+					
+                    Expand(x + 1, y, rooms.Count);
+                    Expand(x - 1, y, rooms.Count);
+                    Expand(x, y + 1, rooms.Count);
+                    Expand(x, y - 1, rooms.Count);
+                }
+            }
+        }
+    }
+    
+    private void Expand(int x, int y, int roomID)
+    {
+        if (x < 0 || x >= Width || y < 0 || y >= Height)
+            return;
+
+        if (!Get(x, y) && map[x, y] == 0)
+        {
+            map[x, y] = roomID;
+            rooms[roomID - 1]++;
+			
+            Expand(x + 1, y, roomID);
+            Expand(x - 1, y, roomID);
+            Expand(x, y + 1, roomID);
+            Expand(x, y - 1, roomID);
+        }
+    }
+    
+    public void RecalculateBounds()
+    {
+        Vector2Int min = new Vector2Int(Width, Height);
+        Vector2Int max = new Vector2Int(0, 0);
+        
+        // Calculate boundaries
+        for (int x = 0; x < Width; x++)
+        {
+            for (int y = 0; y < Height; y++)
+            {
+                if (!Get(x, y))
+                {
+                    // Upper bound
+                    if (x > max.x)
+                        max.x = x;
+                    if (y > max.y)
+                        max.y = y;
+                    
+                    // Lower bound
+                    if (x < min.x)
+                        min.x = x;
+                    if (y < min.y)
+                        min.y = y;
+                }
+            }
+        }
+
+        // Update boundaries
+        Width = max.x - min.x;
+        Height = max.y - min.y;
+        bool[,] oldGrid = grid;
+        grid = new bool[Width, Height];
+
+        for (int x = min.x; x < max.x; x++)
+        {
+            for (int y = min.y; y < max.y; y++)
+            {
+                grid[x - min.x, y - min.y] = oldGrid[x, y];
+            }
+        }
+    }
+
+    #endregion
+    
 }

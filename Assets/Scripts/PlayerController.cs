@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-
+    public float Size { get; protected set; } // Player hitbox size
     public int Score { get; protected set; }
 
     private void Awake()
     {
         Utility.Player = this;
+        Size = .3f;
     }
 
     // Update is called once per frame
