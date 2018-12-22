@@ -6,6 +6,9 @@ public class GameController : MonoBehaviour
 
     private MapGenerator mapGenerator;
 
+    [SerializeField]
+    private BGMManager bgmManager;
+
     public int Points { get; protected set; }
 
     private void Start()
@@ -19,6 +22,7 @@ public class GameController : MonoBehaviour
     public void StartGame()
     {
         mapGenerator.GenerateMap();
+        bgmManager.PlayBGM(1);
         SpawnPlayer();
     }
 
