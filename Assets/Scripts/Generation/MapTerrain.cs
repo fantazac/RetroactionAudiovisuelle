@@ -50,7 +50,12 @@ public class MapTerrain : MonoBehaviour
 
     public bool CanMove(Vector3 to)
     {
-        float size = 0.5f;
+        float size = 0f;
+
+        Debug.LogWarning(grid.IsEmpty((int)(to.x + size), (int)(to.y + size)));
+        Debug.Log(grid.IsEmpty((int)(to.x + size), (int)(to.y - size)));
+        Debug.Log(grid.IsEmpty((int)(to.x - size), (int)(to.y + size)));
+        Debug.Log(grid.IsEmpty((int)(to.x - size), (int)(to.y - size)));
 
         return grid.IsEmpty((int)(to.x + size), (int)(to.y + size)) && // Top Right
                grid.IsEmpty((int)(to.x + size), (int)(to.y - size)) && // Bottom Right

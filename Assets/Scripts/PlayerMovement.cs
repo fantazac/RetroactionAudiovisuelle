@@ -33,19 +33,19 @@ public class PlayerMovement : MonoBehaviour
     {
         if (!pickaxeManager.IsHittingRock)
         {
-            if (moveLeft && !moveRight)
+            if (moveLeft && !moveRight && Utility.World.CanMove(transform.position + Vector3.left * movementSpeed * Time.deltaTime))
             {
                 transform.position += Vector3.left * movementSpeed * Time.deltaTime;
             }
-            if (moveRight && !moveLeft)
+            if (moveRight && !moveLeft && Utility.World.CanMove(transform.position + Vector3.right * movementSpeed * Time.deltaTime))
             {
                 transform.position += Vector3.right * movementSpeed * Time.deltaTime;
             }
-            if (moveUp && !moveDown)
+            if (moveUp && !moveDown && Utility.World.CanMove(transform.position + Vector3.forward * movementSpeed * Time.deltaTime))
             {
                 transform.position += Vector3.forward * movementSpeed * Time.deltaTime;
             }
-            if (moveDown && !moveUp)
+            if (moveDown && !moveUp && Utility.World.CanMove(transform.position + Vector3.back * movementSpeed * Time.deltaTime))
             {
                 transform.position += Vector3.back * movementSpeed * Time.deltaTime;
             }
