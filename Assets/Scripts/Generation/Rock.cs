@@ -4,10 +4,22 @@ public class Rock : MonoBehaviour
 {
     public int Level { get; protected set; }
 
-    private void Start()
+    private int health;
+
+    private Rock()
     {
         Level = 0;
+        health = 3;
+    }
+
+    private void Start()
+    {
         // Todo reposition & resize collider
+    }
+
+    public int Hit()
+    {
+        return --health;
     }
 
     public void LevelUp()
@@ -16,6 +28,10 @@ public class Rock : MonoBehaviour
         {
             Level++;
             UpdateUvs();
+            if(Level == 4)
+            {
+                Level++;
+            }
         }
     }
 

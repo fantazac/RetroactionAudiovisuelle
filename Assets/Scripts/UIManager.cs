@@ -38,6 +38,9 @@ public class UIManager : MonoBehaviour
                     ExitGame();
                 }
                 break;
+            case MainMenuState.IN_GAME:
+                GUILayout.TextField("Points: " + gameController.Points);
+                break;
         }
     }
 

@@ -6,8 +6,12 @@ public class GameController : MonoBehaviour
 
     private MapGenerator mapGenerator;
 
+    public int Points { get; protected set; }
+
     private void Start()
     {
+        StaticObjects.GameController = this;
+
         mapGenerator = GetComponent<MapGenerator>();
         playerPrefab = Resources.Load<GameObject>("Player");
     }
@@ -23,5 +27,10 @@ public class GameController : MonoBehaviour
         GameObject player = Instantiate(playerPrefab, mapGenerator.MapTerrain.PlayerSpawn, Quaternion.identity);
         StaticObjects.Player = player;
         StaticObjects.PlayerMouseManager = player.GetComponent<MouseManager>();
+    }
+
+    public void RockDestroyed(int points)
+    {
+        Points += points;
     }
 }

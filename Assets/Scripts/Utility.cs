@@ -5,7 +5,6 @@ using UnityEngine;
 public class Utility
 {
     public static MapTerrain World;
-    public static PlayerController Player;
     
     public static Vector2Int GetPlayerActionPosition(Transform player)
     {

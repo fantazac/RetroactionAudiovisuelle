@@ -50,7 +50,7 @@ public class MapTerrain : MonoBehaviour
 
     public bool CanMove(Vector3 to)
     {
-        float size = Utility.Player.Size;
+        float size = 0.5f;
 
         return grid.IsEmpty((int)(to.x + size), (int)(to.y + size)) && // Top Right
                grid.IsEmpty((int)(to.x + size), (int)(to.y - size)) && // Bottom Right
@@ -104,7 +104,7 @@ public class MapTerrain : MonoBehaviour
 
     private void PlaceRocks()
     {
-        float rockSpawnChance = .35f;
+        float rockSpawnChance = 0.35f;
         GameObject rockHolder = new GameObject("Rocks");
         rockHolder.transform.parent = transform;
 
@@ -124,7 +124,7 @@ public class MapTerrain : MonoBehaviour
             }
         }
 
-        UpgradeRocks(.28f, 2);
+        UpgradeRocks(0.28f, 2);
     }
 
     private void UpgradeRocks(float prob, int iterations)
@@ -142,24 +142,6 @@ public class MapTerrain : MonoBehaviour
                 }
             }
         }
-    }
-
-    public int DestroyRock(int x, int y)
-    {
-        int points = 0;
-
-        Rock rock = grid.GetRock(x, y);
-        if (rock != null)
-        {
-            points += rock.Level;
-            if (points == 4) // Extra point for max rock level
-                points++;
-
-            Destroy(rock.gameObject);
-
-        }
-
-        return points;
     }
 
     private void OnDrawGizmosSelected()

@@ -6,9 +6,12 @@ public class MouseManager : MonoBehaviour
 
     private RaycastHit hit;
 
+    private PickaxeManager pickaxeManager;
+
     private void Start()
     {
         GetComponent<InputManager>().OnLeftClick += OnLeftClick;
+        pickaxeManager = GetComponent<PickaxeManager>();
     }
 
     public void HoverRock(Rock hoveredRock)
@@ -28,7 +31,7 @@ public class MouseManager : MonoBehaviour
     {
         if (HoveredRock != null)
         {
-            Debug.Log("Clicked rock!");
+            pickaxeManager.HitRockInRange(HoveredRock);
         }
     }
 }

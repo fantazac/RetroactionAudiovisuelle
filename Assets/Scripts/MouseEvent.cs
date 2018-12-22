@@ -11,11 +11,17 @@ public class MouseEvent : MonoBehaviour
 
     private void OnMouseEnter()
     {
-        StaticObjects.PlayerMouseManager.HoverRock(rock);
+        if (StaticObjects.PlayerMouseManager)
+        {
+            StaticObjects.PlayerMouseManager.HoverRock(rock);
+        }
     }
 
     private void OnMouseExit()
     {
-        StaticObjects.PlayerMouseManager.UnhoverRock(rock);
+        if (StaticObjects.PlayerMouseManager)
+        {
+            StaticObjects.PlayerMouseManager.UnhoverRock(rock);
+        }
     }
 }
