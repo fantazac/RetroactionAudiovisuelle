@@ -14,7 +14,7 @@ public class ProceduralMesh
         triangles = new List<int>();
         uvs = new List<Vector2>();
         this.grid = grid;
-        int borderSize = 5;
+        int borderSize = 15;
         float height = 1f;
 
         for (int y = -borderSize; y < grid.Height + borderSize; y++)
@@ -76,8 +76,8 @@ public class ProceduralMesh
 
     private void AddWalls(int x, int y, float height)
     {
-        int triangleIndex = vertices.Count;
         int count = 0;
+        int triangleIndex = vertices.Count;
 
         // Top
         if (grid.Get(x, y + 1))
@@ -98,6 +98,7 @@ public class ProceduralMesh
             vertices.Add(new Vector3(x, height, y));
             count++;
         }
+        //*/
 
         // Right
         if (grid.Get(x + 1, y))
@@ -108,6 +109,7 @@ public class ProceduralMesh
             vertices.Add(new Vector3(x + 1, height, y));
             count++;
         }
+        //*/
 
         // Left
         if (grid.Get(x - 1, y))
@@ -118,14 +120,15 @@ public class ProceduralMesh
             vertices.Add(new Vector3(x, height, y + 1));
             count++;
         }
+        //*/
 
         for (int i = 0; i < count; i++)
         {
             // UVs
-            uvs.Add(new Vector2(0, 0));
-            uvs.Add(new Vector2(1, 0));
-            uvs.Add(new Vector2(0, 1));
-            uvs.Add(new Vector2(1, 1));
+            uvs.Add(new Vector2(2, 0));
+            uvs.Add(new Vector2(3, 0));
+            uvs.Add(new Vector2(2, 1));
+            uvs.Add(new Vector2(3, 1));
 
             // Triangles
             // Upper Right
@@ -137,6 +140,9 @@ public class ProceduralMesh
             triangles.Add(triangleIndex);
             triangles.Add(triangleIndex + 1);
             triangles.Add(triangleIndex + 3);
+            
+            triangleIndex += 4;
         }
+        //*/
     }
 }
