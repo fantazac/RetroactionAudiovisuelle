@@ -31,6 +31,6 @@ public class GameController : MonoBehaviour
 
     public void RockDestroyed(int points)
     {
-        Points += points;
+        Points += points + 1;
     }
 }

@@ -124,7 +124,7 @@ public class MapTerrain : MonoBehaviour
             }
         }
 
-        UpgradeRocks(0.28f, 2);
+        UpgradeRocks(0.28f, 3);
     }
 
     private void UpgradeRocks(float prob, int iterations)

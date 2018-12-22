@@ -3,9 +3,7 @@
 public class UIManager : MonoBehaviour
 {
     [SerializeField]
-    private GameObject startScreenCamera;
-    [SerializeField]
-    private GameObject mainMenuCamera;
+    private GameObject mainCamera;
 
     private MainMenuState state;
 
@@ -46,16 +44,22 @@ public class UIManager : MonoBehaviour
 
     private void LoadMainMenu()
     {
-        startScreenCamera.SetActive(false);
-        mainMenuCamera.SetActive(true);
+        mainCamera.transform.position += Vector3.left * 600;
         state = MainMenuState.MAIN_MENU;
     }
 
     private void LoadGame()
     {
         state = MainMenuState.IN_GAME;
+        mainCamera.SetActive(false);
         gameController.StartGame();
     }
+
+    /*private void ExitToMainMenu()
+    {
+        state = MainMenuState.MAIN_MENU;
+        mainCamera.SetActive(true);
+    }*/
 
     private void ExitGame()
     {

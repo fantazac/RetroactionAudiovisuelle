@@ -19,7 +19,7 @@ public class InputManager : MonoBehaviour
 
     private void Start()
     {
-        GetComponent<CharacterMovement>().SetupMovementInputs(this);
+        GetComponent<PlayerMovement>().SetupMovementInputs(this);
     }
 
     private void Update()

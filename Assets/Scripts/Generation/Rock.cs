@@ -24,18 +24,15 @@ public class Rock : MonoBehaviour
 
     public void LevelUp()
     {
-        if (Level < 3)
+        Level++;
+        UpdateUvs();
+        if (Level == 3)
         {
             Level++;
-            UpdateUvs();
-            if(Level == 4)
-            {
-                Level++;
-            }
         }
     }
 
-    public void UpdateUvs()
+    private void UpdateUvs()
     {
         MeshFilter meshFilter = GetComponent<MeshFilter>();
         Mesh mesh = meshFilter.mesh;

@@ -6,6 +6,9 @@ public class PickaxeManager : MonoBehaviour
     private float cooldown;
     private float remainingCooldown;
 
+    private float timeAfterHit;
+    private WaitForSeconds delayAfterHit;
+
     private float castTime;
     private WaitForSeconds delayCastTime;
 
@@ -14,13 +17,17 @@ public class PickaxeManager : MonoBehaviour
     private Material material;
 
     public bool CanHitRock { get; private set; }
+    public bool IsHittingRock { get; private set; }
 
     private PickaxeManager()
     {
-        cooldown = 0.3f;
+        cooldown = 0.2f;
 
         castTime = 0.15f;
         delayCastTime = new WaitForSeconds(castTime);
+
+        timeAfterHit = 0.1f;
+        delayAfterHit = new WaitForSeconds(timeAfterHit);
 
         minimumDistanceToHitRock = 1;
 
@@ -37,6 +44,7 @@ public class PickaxeManager : MonoBehaviour
         if(CanHitRock && Vector3.Distance(rock.transform.position, transform.position) <= minimumDistanceToHitRock)
         {
             CanHitRock = false;
+            IsHittingRock = true;
             material.color = Color.red;
             StartCoroutine(CastTime(rock));
         }
@@ -47,7 +55,6 @@ public class PickaxeManager : MonoBehaviour
         yield return delayCastTime;
 
         DamageRock(rock);
-        material.color = Color.white;
     }
 
     private void DamageRock(Rock rock)
@@ -57,6 +64,15 @@ public class PickaxeManager : MonoBehaviour
             StaticObjects.GameController.RockDestroyed(rock.Level);
             Destroy(rock.gameObject);
         }
+        StartCoroutine(AfterHit());
+    }
+
+    private IEnumerator AfterHit()
+    {
+        yield return delayAfterHit;
+
+        IsHittingRock = false;
+        material.color = Color.white;
         StartCoroutine(Cooldown());
     }
 
