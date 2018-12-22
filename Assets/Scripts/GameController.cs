@@ -20,6 +20,8 @@ public class GameController : MonoBehaviour
 
     private void SpawnPlayer()
     {
-        Instantiate(playerPrefab, mapGenerator.MapTerrain.PlayerSpawn, Quaternion.identity);
+        GameObject player = Instantiate(playerPrefab, mapGenerator.MapTerrain.PlayerSpawn, Quaternion.identity);
+        StaticObjects.Player = player;
+        StaticObjects.PlayerMouseManager = player.GetComponent<MouseManager>();
     }
 }
