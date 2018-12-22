@@ -22,10 +22,10 @@ public class ProceduralMesh
             for (int x = -borderSize; x < grid.Width + borderSize; x++)
             {
                 if (grid.Get(x, y)) // Ground
-                    AddTile(x, y, 0f, new Vector2(Random.value >= .2f ? 0f : 1f, 1f));
+                    AddTile(x, y, 0f, new Vector2(Random.value >= .2f ? 0f : 1f, 0f));
                 else // Walls
                 {
-                    AddTile(x, y, height, new Vector2(1f, 0f));
+                    AddTile(x, y, height, new Vector2(3f, 0f));
                     AddWalls(x, y, height);
                 }
             }
@@ -78,8 +78,6 @@ public class ProceduralMesh
     {
         int triangleIndex = vertices.Count;
         int count = 0;
-
-        //todo: FIX
 
         // Top
         if (grid.Get(x, y + 1))
