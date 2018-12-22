@@ -9,7 +9,7 @@ public class BGMManager : MonoBehaviour
 
     private BGMManager()
     {
-        fadeSpeed = 0.55f;
+        fadeSpeed = 0.6f;
     }
 
     private void Start()

@@ -8,24 +8,36 @@ public class Rock : MonoBehaviour
 
     private RockSoundManager rockSoundManager;
 
+    MeshFilter meshFilter;
+    Mesh mesh;
+    Vector2[] uvs;
+
     private Rock()
     {
         Level = 0;
         health = 3;
     }
 
-    private void Start()
+    private void Awake()
     {
         rockSoundManager = GetComponent<RockSoundManager>();
+
+        meshFilter = GetComponent<MeshFilter>();
+        mesh = meshFilter.mesh;
+        uvs = mesh.uv;
+    }
+
+    private void Start()
+    {
         UpdateUvs();
+        if (Level == 3)
+        {
+            Level++;
+        }
     }
 
     public int Hit()
     {
-        MeshFilter meshFilter = GetComponent<MeshFilter>();
-        Mesh mesh = meshFilter.mesh;
-        Vector2[] uvs = mesh.uv;
-
         for (int i = 0; i < uvs.Length; i++)
             uvs[i].y--;
         mesh.uv = uvs;
@@ -37,19 +49,10 @@ public class Rock : MonoBehaviour
     public void LevelUp()
     {
         Level++;
-        UpdateUvs();
-        if (Level == 3)
-        {
-            Level++;
-        }
     }
 
     private void UpdateUvs()
     {
-        MeshFilter meshFilter = GetComponent<MeshFilter>();
-        Mesh mesh = meshFilter.mesh;
-        Vector2[] uvs = mesh.uv;
-
         // Front
         uvs[0] = new Vector2(Level, 3);
         uvs[1] = new Vector2(Level + 1, 3);

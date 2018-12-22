@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
@@ -9,7 +10,17 @@ public class GameController : MonoBehaviour
     [SerializeField]
     private BGMManager bgmManager;
 
-    public int Points { get; protected set; }
+    public int Points { get; private set; }
+    public int MapLevel { get; private set; }
+    public int TimeLeftForMap { get; private set; }
+
+    private int startTimeForMap;
+    private WaitForSeconds delaySecond;
+
+    private GameController()
+    {
+        startTimeForMap = 20;
+    }
 
     private void Start()
     {
@@ -17,13 +28,17 @@ public class GameController : MonoBehaviour
 
         mapGenerator = GetComponent<MapGenerator>();
         playerPrefab = Resources.Load<GameObject>("Player");
+
+        delaySecond = new WaitForSeconds(1);
     }
 
     public void StartGame()
     {
+        MapLevel++;
         mapGenerator.GenerateMap();
         bgmManager.PlayBGM(1);
         SpawnPlayer();
+        StartCoroutine(TimeForMap());
     }
 
     private void SpawnPlayer()
@@ -36,5 +51,32 @@ public class GameController : MonoBehaviour
     public void RockDestroyed(int points)
     {
         Points += points + 1;
+    }
+
+    private IEnumerator TimeForMap()
+    {
+        TimeLeftForMap = startTimeForMap;
+
+        while (TimeLeftForMap > 0)
+        {
+            yield return delaySecond;
+
+            TimeLeftForMap--;
+            if (TimeLeftForMap == 11)
+            {
+                bgmManager.PlayBGM(2);
+            }
+            if (TimeLeftForMap <= 10)
+            {
+                if (TimeLeftForMap > 0)
+                {
+                    //play tick sound
+                }
+                else
+                {
+                    //play end sound
+                }
+            }
+        }
     }
 }

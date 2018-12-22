@@ -37,6 +37,7 @@ public class UIManager : MonoBehaviour
                 }
                 break;
             case MainMenuState.IN_GAME:
+                GUILayout.TextField("Level: " + gameController.MapLevel + " - Time left: " + gameController.TimeLeftForMap);
                 GUILayout.TextField("Points: " + gameController.Points);
                 break;
         }
