@@ -50,17 +50,12 @@ public class MapTerrain : MonoBehaviour
 
     public bool CanMove(Vector3 to)
     {
-        float size = 0f;
-
-        Debug.LogWarning(grid.IsEmpty((int)(to.x + size), (int)(to.y + size)));
-        Debug.Log(grid.IsEmpty((int)(to.x + size), (int)(to.y - size)));
-        Debug.Log(grid.IsEmpty((int)(to.x - size), (int)(to.y + size)));
-        Debug.Log(grid.IsEmpty((int)(to.x - size), (int)(to.y - size)));
-
-        return grid.IsEmpty((int)(to.x + size), (int)(to.y + size)) && // Top Right
-               grid.IsEmpty((int)(to.x + size), (int)(to.y - size)) && // Bottom Right
-               grid.IsEmpty((int)(to.x - size), (int)(to.y + size)) && // Top Left
-               grid.IsEmpty((int)(to.x - size), (int)(to.y - size));   // Bottom Left
+        float size = .3f;
+        
+        return grid.IsEmpty((int)(to.x + size), (int)(to.z + size)) && // Top Right
+               grid.IsEmpty((int)(to.x + size), (int)(to.z - size)) && // Bottom Right
+               grid.IsEmpty((int)(to.x - size), (int)(to.z + size)) && // Top Left
+               grid.IsEmpty((int)(to.x - size), (int)(to.z - size));   // Bottom Left
     }
 
     private void PlacePlayerSpawn() // Not my proudest...

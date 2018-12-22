@@ -24,11 +24,6 @@ public class Grid
             }
         }
     }
-
-    public bool IsNextToWalkable(int x, int y)
-    {
-        return Get(x + 1, y) && Get(x - 1, y) && Get(x, y + 1) && Get(x, y - 1);
-    }
     
     public bool Get(int x, int y)
     {
@@ -58,7 +53,7 @@ public class Grid
     // An empty cell is a walkable cell that contains no rock.
     public bool IsEmpty(int x, int y)
     {
-        return Get(x, y) && GetRock(x, y) == null;
+        return Get(x, y) && !GetRock(x, y);
     }
     
     public bool CanMove(Vector2Int from, Vector2Int to)
