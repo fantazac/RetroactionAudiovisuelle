@@ -19,6 +19,11 @@ public class BGMManager : MonoBehaviour
         PlayBGM(0);
     }
 
+    public void PlaySound(int soundId)//TODO SOUND MANAGER
+    {
+        audioSources[soundId].Play();
+    }
+
     public void PlayBGM(int soundId)
     {
         AudioSource playingAudioSource = null;

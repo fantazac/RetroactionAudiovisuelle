@@ -95,11 +95,11 @@ public class GameController : MonoBehaviour
             {
                 bgmManager.PlayBGM(2);
             }
-            if (TimeLeftForMap <= 10)
+            if (TimeLeftForMap <= 5)
             {
                 if (TimeLeftForMap > 0)
                 {
-                    //play tick sound
+                    bgmManager.PlaySound(5);
                 }
             }
         }
@@ -108,9 +108,10 @@ public class GameController : MonoBehaviour
         StaticObjects.PlayerPickaxeManager.CanMine = false;
         StaticObjects.PlayerMovement.CanMove = false;
 
-        if(numberOfMapsPerGame == MapLevel)
+        //bgmManager.PlayBGM(6);
+        if (numberOfMapsPerGame == MapLevel)
         {
-            //bgmManager.PlayBGM(4);
+            bgmManager.PlayBGM(4);
             uiManager.GameFinished();
         }
         else
