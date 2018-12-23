@@ -1,7 +1,6 @@
 ﻿public enum MainMenuState
 {
-    START_SCREEN,
-    MAIN_MENU,
+    STAND_BY,
     IN_GAME,
     LEVEL_FINISHED,
     GAME_FINISHED

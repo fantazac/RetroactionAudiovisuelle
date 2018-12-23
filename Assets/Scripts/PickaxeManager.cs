@@ -3,8 +3,6 @@ using UnityEngine;
 
 public class PickaxeManager : MonoBehaviour
 {
-    private PickaxeSoundManager pickaxeSoundManager;
-
     private float cooldown;
     private float remainingCooldown;
 
@@ -40,7 +38,6 @@ public class PickaxeManager : MonoBehaviour
     private void Start()
     {
         material = GetComponent<Renderer>().material;
-        pickaxeSoundManager = GetComponent<PickaxeSoundManager>();
     }
 
     public void HitRockInRange(Rock rock)
@@ -50,7 +47,7 @@ public class PickaxeManager : MonoBehaviour
             CanHitRock = false;
             IsHittingRock = true;
             material.color = Color.red;
-            pickaxeSoundManager.PlaySound(0);
+            StaticObjects.SoundEffectManager.PlaySound(2);
             StartCoroutine(CastTime(rock));
         }
     }
@@ -66,7 +63,7 @@ public class PickaxeManager : MonoBehaviour
     {
         if (rock.Hit() == 0)
         {
-            pickaxeSoundManager.PlaySound(1);
+            StaticObjects.SoundEffectManager.PlaySound(3);
             StaticObjects.GameController.RockDestroyed(rock.Value);
             Destroy(rock.gameObject);
         }

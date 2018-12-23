@@ -9,19 +9,21 @@ public class BGMManager : MonoBehaviour
 
     private float fadeSpeed;
 
-    private float soundVolume;
-
     private BGMManager()
     {
         fadeSpeed = 0.6f;
-        soundVolume = 1;
         audioSourceVolumes = new List<float>();
+    }
+
+    private void Awake()
+    {
+        StaticObjects.BGMManager = this;
     }
 
     private void Start()
     {
         audioSources = GetComponents<AudioSource>();
-        foreach(AudioSource audioSource in audioSources)
+        foreach (AudioSource audioSource in audioSources)
         {
             audioSourceVolumes.Add(audioSource.volume);
         }
@@ -29,7 +31,7 @@ public class BGMManager : MonoBehaviour
         PlayBGM(0);
     }
 
-    public void PlaySound(int soundId)//TODO SOUND MANAGER
+    public void PlaySound(int soundId)
     {
         audioSources[soundId].Play();
     }
@@ -58,8 +60,8 @@ public class BGMManager : MonoBehaviour
 
     private IEnumerator FadeSounds(AudioSource playingAudioSource, AudioSource toPlayAudioSource)
     {
-        float finalVolume = toPlayAudioSource.volume * soundVolume;
-        float playingFinalVolume = playingAudioSource.volume * soundVolume;
+        float finalVolume = toPlayAudioSource.volume;
+        float playingFinalVolume = playingAudioSource.volume;
         toPlayAudioSource.volume = 0;
 
         while (finalVolume < playingAudioSource.volume)
@@ -92,8 +94,6 @@ public class BGMManager : MonoBehaviour
 
     public void UpdateVolume(float newSoundVolume)
     {
-        soundVolume = newSoundVolume;
-
         for (int i = 0; i < audioSourceVolumes.Count; i++)
         {
             audioSources[i].volume = audioSourceVolumes[i] * newSoundVolume;

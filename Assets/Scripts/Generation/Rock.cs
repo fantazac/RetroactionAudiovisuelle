@@ -6,8 +6,6 @@ public class Rock : MonoBehaviour
 
     private int health;
 
-    private RockSoundManager rockSoundManager;
-
     MeshFilter meshFilter;
     Mesh mesh;
     Vector2[] uvs;
@@ -20,8 +18,6 @@ public class Rock : MonoBehaviour
 
     private void Awake()
     {
-        rockSoundManager = GetComponent<RockSoundManager>();
-
         meshFilter = GetComponent<MeshFilter>();
         mesh = meshFilter.mesh;
         uvs = mesh.uv;
@@ -42,7 +38,7 @@ public class Rock : MonoBehaviour
             uvs[i].y--;
         mesh.uv = uvs;
         
-        rockSoundManager.PlaySound(0);
+        StaticObjects.SoundEffectManager.PlaySound(4);
         return --health;
     }
 

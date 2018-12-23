@@ -10,11 +10,6 @@ public class GameController : MonoBehaviour
 
     private UIManager uiManager;
 
-    [SerializeField]
-    private BGMManager bgmManager;
-    [SerializeField]
-    private SoundEffectManager soundEffectManager;
-
     public int Points { get; private set; }
     public int MapLevel { get; private set; }
     public int TimeLeftForMap { get; private set; }
@@ -43,10 +38,11 @@ public class GameController : MonoBehaviour
         delaySecond = new WaitForSeconds(1);
     }
 
-    public void StartGame()
+    public void StartGame(int width, int height)
     {
-        mapGenerator.GenerateMap();
-        bgmManager.PlayBGM(1);
+        mapGenerator.GenerateMap(width, height);
+        uiManager.SetInGame();
+        StaticObjects.BGMManager.PlayBGM(1);
         if (StaticObjects.Player != null)
         {
             StaticObjects.Player.transform.position = mapGenerator.MapTerrain.PlayerSpawn;
@@ -95,13 +91,13 @@ public class GameController : MonoBehaviour
             TimeLeftForMap--;
             if (TimeLeftForMap == 11)
             {
-                bgmManager.PlayBGM(2);
+                StaticObjects.BGMManager.PlayBGM(2);
             }
             if (TimeLeftForMap <= 5)
             {
                 if (TimeLeftForMap > 0)
                 {
-                    soundEffectManager.PlaySound(0);
+                    StaticObjects.SoundEffectManager.PlaySound(0);
                 }
             }
         }
@@ -110,21 +106,16 @@ public class GameController : MonoBehaviour
         StaticObjects.PlayerPickaxeManager.CanMine = false;
         StaticObjects.PlayerMovement.CanMove = false;
 
-        soundEffectManager.PlaySound(1);
+        StaticObjects.SoundEffectManager.PlaySound(1);
         if (numberOfMapsPerGame == MapLevel)
         {
-            bgmManager.PlayBGM(4);
-            uiManager.GameFinished();
+            StaticObjects.BGMManager.PlayBGM(4);
+            uiManager.SetGameFinished();
         }
         else
         {
-            bgmManager.PlayBGM(3);
-            uiManager.LevelFinished();
+            StaticObjects.BGMManager.PlayBGM(3);
+            uiManager.SetLevelFinished();
         }
-    }
-
-    public void MainMenuMusic()
-    {
-        bgmManager.PlayBGM(0);
     }
 }
