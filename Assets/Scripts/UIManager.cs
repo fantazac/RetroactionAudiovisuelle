@@ -33,7 +33,7 @@ public class UIManager : MonoBehaviour
                 }
                 if (GUILayout.Button("Next map!", GUILayout.Height(40)))
                 {
-                    menuManager.OnClickStart();
+                    menuManager.StartGame();
                     SetInGame();
                 }
                 break;
