@@ -5,27 +5,21 @@ public class MapTerrain : MonoBehaviour
     private int width;
     private int height;
     private Grid grid;
-
-    private ProceduralMesh proceduralMesh;
-
-    private MeshFilter meshFilter;
-    private MeshRenderer meshRenderer;
-    private MeshCollider meshCollider;
-
-    // Resources
-    private GameObject WallColliderPrefab;
     private GameObject RockPrefab;
 
     public Material GroundMaterial { get; protected set; }
+    public ParticleSystem RockDestruction { get; protected set; }
     public Vector3 PlayerSpawn { get; protected set; }
 
     private void Awake()
     {
         Utility.World = this;
 
-        WallColliderPrefab = Resources.Load<GameObject>("WallCollider");
         RockPrefab = Resources.Load<GameObject>("Rock");
         GroundMaterial = Resources.Load<Material>("MainMaterial");
+        GroundMaterial = Resources.Load<Material>("MainMaterial");
+        
+        RockDestruction = Resources.Load<ParticleSystem>("PS_Destruction");
     }
 
     public void Generate(int width, int height, float initialProb, int birthLimit, int deathLimit)
@@ -33,16 +27,12 @@ public class MapTerrain : MonoBehaviour
         this.width = width;
         this.height = height;
 
-        meshFilter = gameObject.AddComponent<MeshFilter>();
-        meshRenderer = gameObject.AddComponent<MeshRenderer>();
-        meshRenderer.material = GroundMaterial;
-
         CellularAutomata ca = new CellularAutomata(width, height, initialProb, birthLimit, deathLimit);
         ca.Simulate(10);
         ca.Optimise();
 
         grid = new Grid(ca);
-        proceduralMesh = new ProceduralMesh(grid, transform);
+        ProceduralMesh proceduralMesh = new ProceduralMesh(grid, transform);
 
         PlacePlayerSpawn();
         PlaceRocks();

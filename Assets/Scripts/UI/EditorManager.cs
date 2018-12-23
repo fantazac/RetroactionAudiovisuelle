@@ -52,7 +52,6 @@ public class EditorManager : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-
         // Default values
         inputWidth.text = "60";
         inputHeight.text = "60";
