@@ -67,6 +67,10 @@ public class PickaxeManager : MonoBehaviour
             Utility.ParticleManager.PlayRockDestruction(rock.transform.position);
             StaticObjects.SoundEffectManager.PlaySound(3);
             StaticObjects.GameController.RockDestroyed(rock.Value);
+            if(rock.Value == 4)
+            {
+                StaticObjects.SoundEffectManager.PlaySound(5);
+            }
             Destroy(rock.gameObject);
         }
         StartCoroutine(AfterHit());

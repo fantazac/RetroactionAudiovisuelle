@@ -102,9 +102,9 @@ public class GameController : MonoBehaviour
             }
         }
 
-        StaticObjects.PlayerMovement.StopAllMovement();
         StaticObjects.PlayerPickaxeManager.CanMine = false;
         StaticObjects.PlayerMovement.CanMove = false;
+        StaticObjects.PlayerMovement.StopAllMovement();
 
         StaticObjects.SoundEffectManager.PlaySound(1);
         if (numberOfMapsPerGame == MapLevel)

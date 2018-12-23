@@ -53,10 +53,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 transform.position += Vector3.back * movementSpeed * Time.deltaTime;
             }
-        }
 
-        if (!pickaxeManager.IsHittingRock)
-        {
             if (isMoving() && material.color != Color.cyan)
             {
                 StaticObjects.FoleySoundEffectManager.PlaySound(0);
@@ -97,6 +94,8 @@ public class PlayerMovement : MonoBehaviour
 
     public void StopAllMovement()
     {
+        StaticObjects.FoleySoundEffectManager.StopSound(0);
+        material.color = Color.white;
         OnMoveLeft(false);
         OnMoveRight(false);
         OnMoveUp(false);
