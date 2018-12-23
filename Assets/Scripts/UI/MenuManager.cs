@@ -90,7 +90,7 @@ public class MenuManager : MonoBehaviour
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
 #else
-                    Application.Quit();
+        Application.Quit();
 #endif
     }
 
@@ -99,7 +99,8 @@ public class MenuManager : MonoBehaviour
         mainCamera.SetActive(false);
         play.SetActive(false);
         mainPanel.SetActive(false);
-        Random.InitState(seed);
+        Random.InitState(seed == 0 ? Environment.TickCount : seed);
+        Debug.Log(seed);
         StartGame();
     }
 
