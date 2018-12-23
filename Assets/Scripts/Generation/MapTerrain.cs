@@ -8,7 +8,6 @@ public class MapTerrain : MonoBehaviour
     private GameObject RockPrefab;
 
     public Material GroundMaterial { get; protected set; }
-    public ParticleSystem RockDestruction { get; protected set; }
     public Vector3 PlayerSpawn { get; protected set; }
 
     private void Awake()
@@ -18,8 +17,6 @@ public class MapTerrain : MonoBehaviour
         RockPrefab = Resources.Load<GameObject>("Rock");
         GroundMaterial = Resources.Load<Material>("MainMaterial");
         GroundMaterial = Resources.Load<Material>("MainMaterial");
-        
-        RockDestruction = Resources.Load<ParticleSystem>("PS_Destruction");
     }
 
     public void Generate(int width, int height, float initialProb, int birthLimit, int deathLimit)
@@ -120,23 +117,5 @@ public class MapTerrain : MonoBehaviour
                 }
             }
         }
-    }
-
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.cyan;
-        Gizmos.DrawSphere(new Vector3(PlayerSpawn.x + .5f, .5f, PlayerSpawn.y + .5f), .5f);
-
-        /*
-		Gizmos.color = Color.yellow;
-		for (int x = 0; x < width; x++)
-		{
-			for (int y = 0; y < height; y++)
-			{
-				if (grid.Get(x, y))
-					Gizmos.DrawCube(new Vector3(x + .5f, 0f, y + .5f), new Vector3(.9f, .1f, .9f));
-			}
-		}
-		//*/
     }
 }

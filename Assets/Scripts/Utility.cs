@@ -5,15 +5,7 @@ using UnityEngine;
 public class Utility
 {
     public static MapTerrain World;
-    
-    public static Vector2Int GetPlayerActionPosition(Transform player)
-    {
-        float playerRange = .5f; // Distance the player 'arms' can reach from player position
-        
-        Vector3 actionPosition = player.position + player.rotation * Vector3.forward * playerRange;
-        
-        return GetGridPosition(actionPosition);
-    }
+    public static ParticleManager ParticleManager;
     
     public static Vector2Int GetGridPosition(Vector3 worldPosition)
     {

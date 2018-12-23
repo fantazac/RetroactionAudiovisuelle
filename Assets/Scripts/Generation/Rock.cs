@@ -29,11 +29,14 @@ public class Rock : MonoBehaviour
         if (Value == 3)
         {
             Value++;
+            Utility.ParticleManager.PlaceDiamond(transform);
         }
     }
 
     public int Hit()
     {
+        Utility.ParticleManager.PlayRockHit(transform.position);
+        
         for (int i = 0; i < uvs.Length; i++)
             uvs[i].y--;
         mesh.uv = uvs;
