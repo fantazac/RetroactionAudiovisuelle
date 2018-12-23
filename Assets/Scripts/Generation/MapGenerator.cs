@@ -1,6 +1,4 @@
-﻿using System;
-using UnityEngine;
-using Random = UnityEngine.Random;
+﻿using UnityEngine;
 
 public class MapGenerator : MonoBehaviour
 {
@@ -19,7 +17,7 @@ public class MapGenerator : MonoBehaviour
         initialProbability = 0.6f;
     }
 
-    public void GenerateMap(int width, int height)
+    public void GenerateMap()
     {
         if (MapTerrain)
         {
@@ -30,6 +28,6 @@ public class MapGenerator : MonoBehaviour
         map.transform.position = Vector3.zero;
 
         MapTerrain = map.AddComponent<MapTerrain>();
-        MapTerrain.Generate(width, height, initialProbability, birthLimit, deathLimit);
+        MapTerrain.Generate(60, 60, initialProbability, birthLimit, deathLimit);
     }
 }

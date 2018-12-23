@@ -38,9 +38,9 @@ public class GameController : MonoBehaviour
         delaySecond = new WaitForSeconds(1);
     }
 
-    public void StartGame(int width, int height)
+    public void StartGame()
     {
-        mapGenerator.GenerateMap(width, height);
+        mapGenerator.GenerateMap();
         uiManager.SetInGame();
         StaticObjects.BGMManager.PlayBGM(1);
         if (StaticObjects.Player != null)

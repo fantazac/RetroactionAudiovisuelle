@@ -20,10 +20,6 @@ public class MenuManager : MonoBehaviour
 
     [SerializeField]
     private TMP_InputField inputSeed;
-    [SerializeField]
-    private TMP_InputField inputWidth;
-    [SerializeField]
-    private TMP_InputField inputHeight;
 
     [SerializeField]
     private GameObject startPanel;
@@ -59,9 +55,6 @@ public class MenuManager : MonoBehaviour
 
     void Start()
     {
-        inputWidth.text = "60";
-        inputHeight.text = "60";
-
         mainPanel.SetActive(false);
     }
 
@@ -107,7 +100,7 @@ public class MenuManager : MonoBehaviour
 
     public void StartGame()
     {
-        gameController.StartGame(width, height);
+        gameController.StartGame();
     }
 
     public void OnClickAdvanced()
@@ -163,30 +156,6 @@ public class MenuManager : MonoBehaviour
         else
         {
             seed = Environment.TickCount;
-        }
-    }
-
-    public void OnWidthChange()
-    {
-        if (!String.IsNullOrEmpty(inputWidth.text))
-        {
-            width = int.Parse(inputWidth.text);
-            if (width < minimumDimension)
-            {
-                width = minimumDimension;
-            }
-        }
-    }
-
-    public void OnHeightChange()
-    {
-        if (!String.IsNullOrEmpty(inputHeight.text))
-        {
-            height = int.Parse(inputHeight.text);
-            if (height < minimumDimension)
-            {
-                height = minimumDimension;
-            }
         }
     }
 }
