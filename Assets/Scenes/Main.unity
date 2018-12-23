@@ -209,8 +209,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainCamera: {fileID: 263573562}
   gameController: {fileID: 464254248}
-  bgmManager: {fileID: 1240283784}
-  soundEffectManager: {fileID: 1997822260}
   sliderMusic: {fileID: 1214794742}
   sliderSound: {fileID: 1941588898}
   inputSeed: {fileID: 1709641888}
@@ -1360,8 +1358,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afe76d6e9b64e5d498b2339b360043ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bgmManager: {fileID: 1240283784}
-  soundEffectManager: {fileID: 1997822260}
 --- !u!114 &464254249
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7314,7 +7310,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 0.582
       inSlope: 0
       outSlope: 0
       tangentMode: 0
