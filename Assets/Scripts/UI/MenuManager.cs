@@ -100,7 +100,6 @@ public class MenuManager : MonoBehaviour
         play.SetActive(false);
         mainPanel.SetActive(false);
         Random.InitState(seed == 0 ? Environment.TickCount : seed);
-        Debug.Log(seed);
         StartGame();
     }
 
@@ -158,7 +157,6 @@ public class MenuManager : MonoBehaviour
         {
             seed = Environment.TickCount;
         }
-        Debug.Log(seed);
     }
 
     public void OnWidthChange()

@@ -10,6 +10,7 @@ public class PlayerMovement : MonoBehaviour
     private float movementSpeed;
 
     private PickaxeManager pickaxeManager;
+    private Material material;
 
     public bool CanMove { get; set; }
 
@@ -21,6 +22,7 @@ public class PlayerMovement : MonoBehaviour
     private void Start()
     {
         pickaxeManager = GetComponent<PickaxeManager>();
+        material = GetComponent<Renderer>().material;
     }
 
     public void SetupMovementInputs(InputManager inputManager)
@@ -52,6 +54,18 @@ public class PlayerMovement : MonoBehaviour
                 transform.position += Vector3.back * movementSpeed * Time.deltaTime;
             }
         }
+
+        if (!pickaxeManager.IsHittingRock)
+        {
+            if (isMoving() && material.color != Color.cyan)
+            {
+                material.color = Color.cyan;
+            }
+            else if (!isMoving() && material.color != Color.white)
+            {
+                material.color = Color.white;
+            }
+        }
     }
 
     private void OnMoveLeft(bool move)
@@ -72,6 +86,11 @@ public class PlayerMovement : MonoBehaviour
     private void OnMoveDown(bool move)
     {
         moveDown = move;
+    }
+
+    public bool isMoving()
+    {
+        return moveLeft || moveRight || moveUp || moveDown;
     }
 
     public void StopAllMovement()
