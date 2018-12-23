@@ -8,5 +8,6 @@ public class StaticObjects : MonoBehaviour
     public static PlayerMovement PlayerMovement { get; set; }
     public static PickaxeManager PlayerPickaxeManager { get; set; }
     public static SoundEffectManager SoundEffectManager { get; set; }
+    public static FoleySoundEffectManager FoleySoundEffectManager { get; set; }
     public static BGMManager BGMManager { get; set; }
 }

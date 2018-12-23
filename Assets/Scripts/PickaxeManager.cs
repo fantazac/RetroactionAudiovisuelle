@@ -46,6 +46,7 @@ public class PickaxeManager : MonoBehaviour
         {
             CanHitRock = false;
             IsHittingRock = true;
+            StaticObjects.FoleySoundEffectManager.StopSound(0);
             material.color = Color.red;
             StaticObjects.SoundEffectManager.PlaySound(2);
             StartCoroutine(CastTime(rock));

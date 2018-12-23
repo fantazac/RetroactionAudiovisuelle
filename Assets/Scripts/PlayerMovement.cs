@@ -59,10 +59,12 @@ public class PlayerMovement : MonoBehaviour
         {
             if (isMoving() && material.color != Color.cyan)
             {
+                StaticObjects.FoleySoundEffectManager.PlaySound(0);
                 material.color = Color.cyan;
             }
             else if (!isMoving() && material.color != Color.white)
             {
+                StaticObjects.FoleySoundEffectManager.StopSound(0);
                 material.color = Color.white;
             }
         }

@@ -15,6 +15,8 @@ public class MenuManager : MonoBehaviour
     private Slider sliderMusic;
     [SerializeField]
     private Slider sliderSound;
+    [SerializeField]
+    private Slider sliderFoley;
 
     [SerializeField]
     private TMP_InputField inputSeed;
@@ -145,6 +147,11 @@ public class MenuManager : MonoBehaviour
     public void OnSoundVolumeChange()
     {
         StaticObjects.SoundEffectManager.UpdateVolume(sliderSound.value);
+    }
+
+    public void OnFoleyVolumeChange()
+    {
+        StaticObjects.FoleySoundEffectManager.UpdateVolume(sliderFoley.value);
     }
 
     public void OnSeedChange()
