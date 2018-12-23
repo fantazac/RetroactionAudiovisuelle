@@ -12,6 +12,8 @@ public class GameController : MonoBehaviour
 
     [SerializeField]
     private BGMManager bgmManager;
+    [SerializeField]
+    private SoundEffectManager soundEffectManager;
 
     public int Points { get; private set; }
     public int MapLevel { get; private set; }
@@ -99,7 +101,7 @@ public class GameController : MonoBehaviour
             {
                 if (TimeLeftForMap > 0)
                 {
-                    bgmManager.PlaySound(5);
+                    soundEffectManager.PlaySound(0);
                 }
             }
         }
@@ -108,7 +110,7 @@ public class GameController : MonoBehaviour
         StaticObjects.PlayerPickaxeManager.CanMine = false;
         StaticObjects.PlayerMovement.CanMove = false;
 
-        //bgmManager.PlayBGM(6);
+        soundEffectManager.PlaySound(1);
         if (numberOfMapsPerGame == MapLevel)
         {
             bgmManager.PlayBGM(4);

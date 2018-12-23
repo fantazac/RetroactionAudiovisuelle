@@ -1,20 +1,30 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class BGMManager : MonoBehaviour
 {
     private AudioSource[] audioSources;
+    private List<float> audioSourceVolumes;
 
     private float fadeSpeed;
+
+    private float soundVolume;
 
     private BGMManager()
     {
         fadeSpeed = 0.6f;
+        soundVolume = 1;
+        audioSourceVolumes = new List<float>();
     }
 
     private void Start()
     {
         audioSources = GetComponents<AudioSource>();
+        foreach(AudioSource audioSource in audioSources)
+        {
+            audioSourceVolumes.Add(audioSource.volume);
+        }
 
         PlayBGM(0);
     }
@@ -48,8 +58,8 @@ public class BGMManager : MonoBehaviour
 
     private IEnumerator FadeSounds(AudioSource playingAudioSource, AudioSource toPlayAudioSource)
     {
-        float finalVolume = toPlayAudioSource.volume;
-        float playingFinalVolume = playingAudioSource.volume;
+        float finalVolume = toPlayAudioSource.volume * soundVolume;
+        float playingFinalVolume = playingAudioSource.volume * soundVolume;
         toPlayAudioSource.volume = 0;
 
         while (finalVolume < playingAudioSource.volume)
@@ -78,5 +88,15 @@ public class BGMManager : MonoBehaviour
         toPlayAudioSource.volume = finalVolume;
         playingAudioSource.Stop();
         playingAudioSource.volume = playingFinalVolume;
+    }
+
+    public void UpdateVolume(float newSoundVolume)
+    {
+        soundVolume = newSoundVolume;
+
+        for (int i = 0; i < audioSourceVolumes.Count; i++)
+        {
+            audioSources[i].volume = audioSourceVolumes[i] * newSoundVolume;
+        }
     }
 }
