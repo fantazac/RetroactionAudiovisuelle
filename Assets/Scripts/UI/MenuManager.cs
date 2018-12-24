@@ -39,19 +39,6 @@ public class MenuManager : MonoBehaviour
     private GameObject mapHolder;
 
     private int seed;
-    private int width;
-    private int height;
-    private int minimumDimension;
-
-    private float initialProbability = .6f;
-
-    private MenuManager()
-    {
-        width = 60;
-        height = 60;
-
-        initialProbability = 0.6f;
-    }
 
     void Start()
     {

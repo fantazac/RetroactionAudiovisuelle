@@ -29,7 +29,7 @@ public class MapTerrain : MonoBehaviour
         ca.Optimise();
 
         grid = new Grid(ca);
-        ProceduralMesh proceduralMesh = new ProceduralMesh(grid, transform);
+        new ProceduralMesh(grid, transform);
 
         PlacePlayerSpawn();
         PlaceRocks();
